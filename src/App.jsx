@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 import GoogleAuthButton from "./components/GoogleAuthButton";
-import EventList from "./components/EventList";
+import EventDashboard from "./components/EventDashboard";
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
+
   const setIsAuthorizedTrue = () => setIsAuthorized(true);
   const setIsAuthorizedFalse = () => setIsAuthorized(false);
+
   return (
     <main>
       <h1>App</h1>
@@ -15,7 +17,7 @@ function App() {
         onSignIn={setIsAuthorizedTrue}
         onSignOut={setIsAuthorizedFalse}
       />
-      {isAuthorized && <EventList />}
+      {isAuthorized && <EventDashboard />}
     </main>
   );
 }

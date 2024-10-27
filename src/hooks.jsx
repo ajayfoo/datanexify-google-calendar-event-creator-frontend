@@ -28,4 +28,33 @@ const useScript = (src, onLoad) => {
   return isLoaded;
 };
 
-export { useScript };
+const useEvents = () => {
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    let ignore = false;
+    const fetchAndSetEvents = async () => {
+      try {
+        const request = {
+          calendarId: "primary",
+          timeMin: new Date().toISOString(),
+          showDeleted: false,
+          singleEvents: true,
+          maxResults: 10,
+          orderBy: "startTime",
+        };
+        const response = await window.gapi.client.calendar.events.list(request);
+        if (ignore) return;
+        setEvents(response.result.items);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchAndSetEvents();
+    return () => {
+      ignore = true;
+    };
+  }, [setEvents]);
+  return [events, setEvents];
+};
+
+export { useScript, useEvents };
