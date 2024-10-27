@@ -36,10 +36,9 @@ function GoogleAuthButton({ isAuthorized, onSignIn, onSignOut }) {
     const newTokenClient = window.google.accounts.oauth2.initTokenClient({
       client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
       scope: SCOPES,
-      callback: "", // defined later
+      callback: "",
     });
     tokenClient.current = newTokenClient;
-    // TODO: do something here
   }
 
   function handleAuthClick() {
@@ -49,7 +48,6 @@ function GoogleAuthButton({ isAuthorized, onSignIn, onSignOut }) {
       }
       onSignIn();
     };
-
     if (window.gapi.client.getToken() === null) {
       // Prompt the user to select a Google Account and ask for consent to share their data
       // when establishing a new session.
@@ -77,7 +75,7 @@ function GoogleAuthButton({ isAuthorized, onSignIn, onSignOut }) {
   }
   return isGApiLoaded && isGisLoaded ? (
     <button type="button" onClick={handleAuthClick}>
-      Authorize
+      Sign In
     </button>
   ) : (
     "Loading"
