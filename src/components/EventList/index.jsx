@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import classes from "./style.module.css";
+
+const formatDateTime = (dateTime) => {
+  return format(dateTime, "do MMM yyyy h:m aaa");
+};
 
 const EventList = () => {
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState([]);
   useEffect(() => {
     let ignore = false;
     const fetchAndSetEvents = async () => {
@@ -26,13 +32,31 @@ const EventList = () => {
       ignore = true;
     };
   }, [setEvents]);
-  return events
-    ? events.reduce(
-        (str, event) =>
-          `${str}${event.summary} (${event.start.dateTime || event.start.date})\n`,
-        "Events:\n"
-      )
-    : "Loading... events";
+  const eventsRows = events.map((e) => {
+    const time = e.start.dateTime
+      ? formatDateTime(e.start.dateTime)
+      : formatDateTime(e.start.date);
+    return (
+      <tr className={classes.tr} key={e.id}>
+        <td>{e.summary}</td>
+        <td>{time}</td>
+      </tr>
+    );
+  });
+  return (
+    <article>
+      <h2>Events</h2>
+      <table className={classes["events-table"]}>
+        <thead>
+          <tr className={classes.tr}>
+            <th>Summary</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>{eventsRows}</tbody>
+      </table>
+    </article>
+  );
 };
 
 export default EventList;

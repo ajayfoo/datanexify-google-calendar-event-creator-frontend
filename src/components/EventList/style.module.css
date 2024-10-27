@@ -1,0 +1,8 @@
+.events-table {
+  border-collapse: collapse;
+}
+
+.tr > td,
+.tr > th {
+  border: 1px solid;
+}
