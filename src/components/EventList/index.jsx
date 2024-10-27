@@ -8,13 +8,17 @@ const formatDateTime = (dateTime) => {
 
 const EventList = ({ events }) => {
   const eventsRows = events.map((e) => {
-    const time = e.start.dateTime
+    const start = e.start.dateTime
       ? formatDateTime(e.start.dateTime)
       : formatDateTime(e.start.date);
+    const end = e.end.dateTime
+      ? formatDateTime(e.end.dateTime)
+      : formatDateTime(e.end.date);
     return (
       <tr className={classes.tr} key={e.id}>
         <td>{e.summary}</td>
-        <td>{time}</td>
+        <td>{start}</td>
+        <td>{end}</td>
       </tr>
     );
   });
@@ -25,7 +29,8 @@ const EventList = ({ events }) => {
         <thead>
           <tr className={classes.tr}>
             <th>Summary</th>
-            <th>Time</th>
+            <th>Start</th>
+            <th>End</th>
           </tr>
         </thead>
         <tbody>{eventsRows}</tbody>
